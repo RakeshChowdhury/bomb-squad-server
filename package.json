@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/shortstheory/bomb-squad-server#readme",
   "dependencies": {
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "jquery": "^3.2.1",
+    "mdbootstrap": "^4.4.1",
+    "pug": "^2.0.0-rc.3"
   }
 }
