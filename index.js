@@ -10,15 +10,8 @@ app.use('/css', express.static(__dirname + '/public/stylesheets/'));
 app.set('view engine', 'pug');
 app.set('views','./views');
 
-var states = {
-    ARMED: 0,
-    DISARMED: 1,
-    DEFUSED: 2,
-    EXPLODED: 3
-};
-
-var inst = new Bomb(8,1238912,states.EXPLODED);
-console.log(inst.status);
+var inst = new Bomb(8,1238912,Bomb.EXPLODED);
+console.log(inst.getStatus());
 
 app.get('/', function(req, res){
    res.render('countDown');
