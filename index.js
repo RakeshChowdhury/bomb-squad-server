@@ -9,6 +9,11 @@ app.get('/', function(req, res){
 });
 
 
+var key = String(process.argv.slice(2));
+app.get('/' + key + '/:rfid([0-9]{12})', function(req, res){
+	console.log(req.params.rfid);
+});
+
 
 app.use('/js', express.static(__dirname + '/node_modules/mdbootstrap/js/'));
 app.use('/css', express.static(__dirname + '/node_modules/mdbootstrap/css/'));
