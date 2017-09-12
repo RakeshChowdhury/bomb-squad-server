@@ -15,11 +15,12 @@
   "bugs": {
     "url": "https://github.com/shortstheory/bomb-squad-server/issues"
   },
-  "homepage": "https://github.com/shortstheory/bomb-squad-server#readme",
+  "homepage": "https://github.cofm/shortstheory/bomb-squad-server#readme",
   "dependencies": {
     "express": "^4.15.4",
     "jquery": "^3.2.1",
     "mdbootstrap": "^4.4.1",
-    "pug": "^2.0.0-rc.3"
+    "pug": "^2.0.0-rc.3",
+    "serialport": "*"
   }
 }
