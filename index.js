@@ -56,14 +56,24 @@ app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
 	var bombNumber;
 	var rfid = req.params.rfid;
 	for (var i = 0; i < bombArray.length; i++) {
-		if (bombArray[i].rfid = rfid) {
+		if (bombArray[i].rfid == rfid) {
 			bombNumber = bombArray[i].number;
-			bombArray[i].status = 1;
+			bombArray[i].setStatus(1);
 		}
 	}
+	console.log(bombArray);
 	res.render('countDown',{
    	bomb: bombNumber 
    });
+});
+
+app.get('/changeState', function(req, res){
+	for (var i = 0; i < bombArray.length; i++) {
+		if (bombArray[i].number == req.query.bomb) {
+			bombArray[i].setStatus(parseInt(req.query.state));
+		}
+	}
+	console.log(bombArray);
 });
 
 app.listen(8085);
