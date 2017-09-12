@@ -6,13 +6,12 @@ html
        include ../public/scripts/countDown.js
       meta(charset="utf-8")
       meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-      //- link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css")
       link(href="/css/bootstrap.min.css" rel="stylesheet")
       link(href="/css/mdb.min.css" rel="stylesheet")
-      link(href="css/countDown.css" rel="stylesheet")
+      link(href="/css/countDown.css" rel="stylesheet")
    
    body
-    h1=bomb
+    h1 Disarmed Bomb Number: #{bomb}
     div.container
       p#countdown
       div.progress

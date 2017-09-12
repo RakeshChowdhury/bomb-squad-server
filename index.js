@@ -50,14 +50,20 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     console.log(bombArray);
 });
 
-app.get('/', function(req, res){
-   res.render('countDown',{
-   	bomb: bomb.number 
-   });
-});
 
-app.get('/' + key + '/:rfid([0-9]{12})', function(req, res){
-	console.log(req.params.rfid);
+
+app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
+	var bombNumber;
+	var rfid = req.params.rfid;
+	for (var i = 0; i < bombArray.length; i++) {
+		if (bombArray[i].rfid = rfid) {
+			bombNumber = bombArray[i].number;
+			bombArray[i].status = 1;
+		}
+	}
+	res.render('countDown',{
+   	bomb: bombNumber 
+   });
 });
 
 app.listen(8085);
