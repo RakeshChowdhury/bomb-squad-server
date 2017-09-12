@@ -51,7 +51,9 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
 });
 
 app.get('/', function(req, res){
-   res.render('countDown');
+   res.render('countDown',{
+   	bomb: bomb.number 
+   });
 });
 
 app.get('/' + key + '/:rfid([0-9]{12})', function(req, res){
