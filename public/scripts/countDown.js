@@ -15,8 +15,7 @@ function progress() {
     document.getElementById("progressbar").style.width = status.toString() + "%";
 
     if (timeleft < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "EXPLODED";
+        explode();
     }
 }
 
@@ -27,6 +26,7 @@ function explode(){
 	document.getElementById("progressbar").style.width = "100%";
     var parameters = { state: 3, bomb: document.getElementById("bombNumber").innerHTML };
     $('#defused').prop('disabled', true);
+    $('#exploded').prop('disabled', true);
     $.get('/changeState', parameters);
 
 }
@@ -36,6 +36,7 @@ function defuse(){
 	document.getElementById("countdown").innerHTML = "DEFUSED";
     var parameters = { state: 2, bomb: document.getElementById("bombNumber").innerHTML };
     $('#exploded').prop('disabled', true);
+    $('#defused').prop('disabled', true);
     $.get('/changeState', parameters);
 
 }
