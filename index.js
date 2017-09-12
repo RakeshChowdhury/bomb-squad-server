@@ -8,7 +8,9 @@ app.set('view engine', 'pug');
 app.set('views','./views');
 
 app.get('/', function(req, res){
-   res.render('countDown');
+   res.render('countDown',{
+   	bomb: bomb.number 
+   });
 });
 
 
