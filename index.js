@@ -50,23 +50,30 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     console.log(bombArray);
 });
 
-function findBombNumber(rfid) {
-    bombArray.forEach(function(bomb)) {
-        if (rfid == bomb.rifd) {
-            return bomb.number;
-        }
-    }
-    return -1;
-}
 
-app.get('/', function(req, res){
-   res.render('countDown',{
-   	bomb: bomb.number
+
+app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
+	var bombNumber;
+	var rfid = req.params.rfid;
+	for (var i = 0; i < bombArray.length; i++) {
+		if (bombArray[i].rfid == rfid) {
+			bombNumber = bombArray[i].number;
+			bombArray[i].setStatus(1);
+		}
+	}
+	console.log(bombArray);
+	res.render('countDown',{
+   	bomb: bombNumber
    });
 });
 
-app.get('/' + key + '/:rfid([0-9]{12})', function(req, res){
-	console.log(req.params.rfid);
+app.get('/changeState', function(req, res){
+	for (var i = 0; i < bombArray.length; i++) {
+		if (bombArray[i].number == req.query.bomb) {
+			bombArray[i].setStatus(parseInt(req.query.state));
+		}
+	}
+	console.log(bombArray);
 });
 
 app.listen(8085);
