@@ -1,9 +1,13 @@
 var express = require('express');
 var app = express();
+var server = require('http').createServer(app);
+
+var key = String(process.argv.slice(2));
+
+var io = require('socket.io')(server);
 var Bomb = require('./bomb.js');
 var fs = require('fs');
 
-var key = String(process.argv.slice(2));
 
 app.use('/js', express.static(__dirname + '/node_modules/mdbootstrap/js/'));
 app.use('/css', express.static(__dirname + '/node_modules/mdbootstrap/css/'));
@@ -76,4 +80,27 @@ app.get('/changeState', function(req, res){
 	console.log(bombArray);
 });
 
-app.listen(8085);
+
+///// socket.io //////
+
+server.listen(5000, function(){
+	console.log("Listening on port 5000");
+});
+
+// socket client test
+app.get('/', function(req, res){
+	res.render('testClient');
+});
+
+
+
+io.sockets.on('connection', function(socket){
+	// console.log("a client has connected");
+	// console.log("url"+socket.handshake.url);
+	var rfId = socket.handshake.query.rfId;
+	var key = socket.handshake.query.key;
+	console.log(rfId + ' & ' + key);
+});
+
+// app.listen(8085);
+
