@@ -2,19 +2,21 @@ doctype html
 html
    head
       title Countdown
-      script
-       include ../public/scripts/countDown.js
+      
       meta(charset="utf-8")
       meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
       link(href="/css/bootstrap.min.css" rel="stylesheet")
       link(href="/css/mdb.min.css" rel="stylesheet")
       link(href="/css/countDown.css" rel="stylesheet")
       script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+      script(src="/socket.io/socket.io.js")
+      script
+       include ../public/scripts/countDown.js
    
    body
     div.container
       h1 Disarmed Bomb Number:
-        span#bombNumber #{bomb}
+        span#bombNumber
       p#countdown
       div.progress
        div#progressbar.progress-bar.progress-bar-striped.bg-info(role="progressbar" aria-valuemin="0" aria-valuemax="100")

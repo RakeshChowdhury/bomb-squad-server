@@ -3,9 +3,9 @@ var time = 30;
 var timeleft = time;
 var status = 0;
 
-
-var x = setInterval(function(){ progress() }, 1000);
-
+function startCountdown(){
+    var x = setInterval(function(){ progress() }, 1000);
+}
 
 function progress() {
     timeleft = timeleft - 1;
@@ -16,6 +16,7 @@ function progress() {
 
     if (timeleft < 0) {
         explode();
+        console.log("hello");
     }
 }
 
@@ -40,3 +41,14 @@ function defuse(){
     $.get('/changeState', parameters);
 
 }
+
+$(document).ready(function(){
+    var socket = io.connect();
+    console.log(socket);
+    socket.on('updateHeader',function(data){
+        document.getElementById("bombNumber").innerHTML = String(data);
+        // console.log("hello");
+        startCountdown();
+    });
+
+});

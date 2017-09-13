@@ -56,19 +56,23 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
 
 
 
-app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
-	var bombNumber;
-	var rfid = req.params.rfid;
-	for (var i = 0; i < bombArray.length; i++) {
-		if (bombArray[i].rfid == rfid) {
-			bombNumber = bombArray[i].number;
-			bombArray[i].setStatus(1);
-		}
-	}
-	console.log(bombArray);
-	res.render('countDown',{
-   	bomb: bombNumber
-   });
+// app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
+// 	var bombNumber;
+// 	var rfid = req.params.rfid;
+// 	for (var i = 0; i < bombArray.length; i++) {
+// 		if (bombArray[i].rfid == rfid) {
+// 			bombNumber = bombArray[i].number;
+// 			bombArray[i].setStatus(1);
+// 		}
+// 	}
+// 	console.log(bombArray);
+// 	res.render('countDown',{
+//    	bomb: bombNumber
+//    });
+// });
+
+app.get('/Aegis', function(req, res){
+	res.render('countDown');
 });
 
 app.get('/changeState', function(req, res){
@@ -80,6 +84,17 @@ app.get('/changeState', function(req, res){
 	console.log(bombArray);
 });
 
+
+function getBombNumber(rfid){
+	var bombNumber;
+	for (var i = 0; i < bombArray.length; i++) {
+		if (bombArray[i].rfid == rfid) {
+			bombNumber = bombArray[i].number;
+			bombArray[i].setStatus(1);
+		}
+	}
+	return bombNumber;
+}
 
 ///// socket.io //////
 
@@ -95,11 +110,16 @@ app.get('/', function(req, res){
 
 
 io.sockets.on('connection', function(socket){
-	// console.log("a client has connected");
+	console.log("a client has connected");
 	// console.log("url"+socket.handshake.url);
 	var rfId = socket.handshake.query.rfId;
 	var key = socket.handshake.query.key;
 	console.log(rfId + ' & ' + key);
+	var bomb = getBombNumber(rfId);
+	if(bomb != undefined){
+		console.log(bomb);
+		io.emit('updateHeader',bomb);
+	}
 });
 
 // app.listen(8085);
