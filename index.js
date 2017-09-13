@@ -50,9 +50,18 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     console.log(bombArray);
 });
 
+function findBombNumber(rfid) {
+    bombArray.forEach(function(bomb)) {
+        if (rfid == bomb.rifd) {
+            return bomb.number;
+        }
+    }
+    return -1;
+}
+
 app.get('/', function(req, res){
    res.render('countDown',{
-   	bomb: bomb.number 
+   	bomb: bomb.number
    });
 });
 
