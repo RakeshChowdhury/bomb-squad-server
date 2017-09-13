@@ -106,7 +106,7 @@ server.listen(5000, function(){
 app.get('/', function(req, res){
 	res.render('testClient');
 });
-
+// client test end
 
 
 io.sockets.on('connection', function(socket){

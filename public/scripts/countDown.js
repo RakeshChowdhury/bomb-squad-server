@@ -2,9 +2,16 @@
 var time = 30;
 var timeleft = time;
 var status = 0;
+var x;
 
 function startCountdown(){
-    var x = setInterval(function(){ progress() }, 1000);
+    if (x != undefined) {
+       timeleft = 30; 
+       status = 0;
+    }
+    $('#defused').prop('disabled', false);
+    $('#exploded').prop('disabled', false);
+    x = setInterval(function(){ progress() }, 1000);
 }
 
 function progress() {
@@ -16,11 +23,12 @@ function progress() {
 
     if (timeleft < 0) {
         explode();
-        console.log("hello");
+        
     }
 }
 
 function explode(){
+
 	clearInterval(x);
 	timeleft = -1;
 	document.getElementById("countdown").innerHTML = "EXPLODED";
