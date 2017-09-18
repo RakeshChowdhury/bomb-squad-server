@@ -3,6 +3,8 @@ var time = 30;
 var timeleft = time;
 var status = 0;
 var x;
+var rfid;
+
 
 function startCountdown(){
     if (x != undefined) {
@@ -30,7 +32,7 @@ function progress() {
 function explode(){
 
 	clearInterval(x);
-	timeleft = -1;
+	timeleft = 30;
 	document.getElementById("countdown").innerHTML = "EXPLODED";
 	document.getElementById("progressbar").style.width = "100%";
     var parameters = { state: 3, bomb: document.getElementById("bombNumber").innerHTML };
@@ -42,6 +44,7 @@ function explode(){
 
 function defuse(){
 	clearInterval(x);
+    timeleft = 30;
 	document.getElementById("countdown").innerHTML = "DEFUSED";
     var parameters = { state: 2, bomb: document.getElementById("bombNumber").innerHTML };
     $('#exploded').prop('disabled', true);
@@ -54,9 +57,15 @@ $(document).ready(function(){
     var socket = io.connect();
     console.log(socket);
     socket.on('updateHeader',function(data){
-        document.getElementById("bombNumber").innerHTML = String(data);
+        if(timeleft == 30 || rfid !== data.rfid){
+            document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
+            rfid = data.rfid;
+            clearInterval(x);
+            startCountdown(); 
+        }
+        
         // console.log("hello");
-        startCountdown();
+        
     });
 
 });

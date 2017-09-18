@@ -1,8 +1,2 @@
-var socket = io.connect('http://localhost:5000/?key=ab&rfId='+ 99993092094,{"force new connection":true});
+var socket = io.connect('http://192.168.0.111:5000/?key=ab&rfId='+ 43277432993,{"force new connection":true});
 console.log(socket);
-
-socket.on('updateHeader',function(data){
-        console.log(data);
-        // $('#bombNumber').innerHTML = bombNumber;
-        // startCountdown();
-});
