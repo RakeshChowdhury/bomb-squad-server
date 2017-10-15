@@ -6,7 +6,8 @@ void setup() {
   digitalWrite(13, LOW);
 
 }
-
+// kids, just change the LEDs for these 3 arrays for the corresponding bombs.
+// make sure you use a mega2560
 const int defuseLeds[] = {2,3,4,5,6,7}; //g
 const int disarmLeds[] = {22,24,26,28,30,32}; //b
 const int explodeLeds[] = {23,25,27,29,31,33}; //r
