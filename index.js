@@ -66,7 +66,7 @@ app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
 	var rfid = req.params.rfid;
 	var bomb = getBombNumber(rfid);
 	var data = {bombnumber: bomb,rfid: rfid};
-		if(bomb != undefined){
+		if(bomb != undefined && bomb != -1){
 			console.log(data);
 			io.emit('updateHeader',data);
 		}
@@ -99,18 +99,22 @@ function triggerArduino() {
 function getBombNumber(rfid){
 	var bombNumber;
 	for (var i = 0; i < bombArray.length; i++) {
-		if (bombArray[i].rfid == rfid) {
+        if(bombArray[i].getStatus() == 3 || bombArray[i].getStatus() == 2){
+            return -1;
+        }
+		else if (bombArray[i].rfid == rfid) {
 			bombNumber = bombArray[i].number;
 			bombArray[i].setStatus(Bomb.DISARMED);
+            triggerArduino();
+            return bombNumber;
 		}
 	}
-    triggerArduino();
-	return bombNumber;
+    return -1;
 }
 
 ///// socket.io //////
 
-server.listen(5000, function(){
+server.listen(3000, function(){
 	console.log("Listening on port 5000");
 });
 

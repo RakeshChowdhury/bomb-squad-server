@@ -14,8 +14,17 @@
 }
 .container{
 	text-align: center;
-	margin-top: 30vh;
 }
 #bombNumber{
 	font-weight: bold;
+}
+.scoreHeader{
+	margin-top: 30px;
+	text-align: center;
+}
+.score{
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-size: 3em;
 }
