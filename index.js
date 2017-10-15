@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-
 var key = String(process.argv.slice(2));
 
 var io = require('socket.io')(server);
@@ -19,6 +18,17 @@ app.set('views','./views');
 var inst = new Bomb(8,1238912,Bomb.EXPLODED);
 var bombArray = [];
 
+const SerialPort = require('serialport');
+const baud_rate = 9600;
+const port = new SerialPort('/dev/ttyACM0', {
+    baudRate: baud_rate
+});
+
+function writeArduino(statusString) {
+    port.write(statusString, 'utf8');
+    console.log("String sent!");
+}
+
 function shuffle(array) {
     let counter = array.length;
     while (counter > 0) {
@@ -35,21 +45,17 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     var array = contents.toString().split('\n');
     array.pop(); //to remove null value
     var rfidNums = [];
-    var shuffledNums = [];
     var i = 0;
 
     array.forEach(function(entry) {
         rfidNums.push(parseInt(entry))
     });
 
-    for (i = 0; i < rfidNums.length; i++) {
-        shuffledNums.push(i);
-    }
-    shuffledNums = shuffle(shuffledNums);
+    rfidNums = shuffle(rfidNums);
 
     i = 0;
     rfidNums.forEach(function(entry) {
-        bombArray.push(new Bomb(shuffledNums[i++], entry, Bomb.ARMED));
+        bombArray.push(new Bomb(i++, entry, Bomb.ARMED));
     });
     console.log(bombArray);
 });
@@ -76,18 +82,29 @@ app.get('/changeState', function(req, res){
 			bombArray[i].setStatus(parseInt(req.query.state));
 		}
 	}
-	console.log(bombArray);
+    triggerArduino();
+    console.log(bombArray);
 });
 
+function triggerArduino() {
+    var statusString = "";
+    for (var i = 0; i < bombArray.length; i++) {
+        statusString += bombArray[i].getStatus();
+    }
+    // console.log(bombArray);
+    writeArduino(statusString);
+    console.log("Status String" + statusString);
+}
 
 function getBombNumber(rfid){
 	var bombNumber;
 	for (var i = 0; i < bombArray.length; i++) {
 		if (bombArray[i].rfid == rfid) {
 			bombNumber = bombArray[i].number;
-			bombArray[i].setStatus(1);
+			bombArray[i].setStatus(Bomb.DISARMED);
 		}
 	}
+    triggerArduino();
 	return bombNumber;
 }
 
@@ -102,7 +119,3 @@ app.get('/', function(req, res){
 	res.render('testClient');
 });
 // client test end
-
-
-
-
