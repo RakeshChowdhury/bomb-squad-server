@@ -93,7 +93,7 @@ function getBombNumber(rfid){
 
 ///// socket.io //////
 
-server.listen(5000, function(){
+server.listen(3000, function(){
 	console.log("Listening on port 5000");
 });
 

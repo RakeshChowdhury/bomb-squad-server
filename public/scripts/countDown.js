@@ -57,11 +57,21 @@ $(document).ready(function(){
     var socket = io.connect();
     console.log(socket);
     socket.on('updateHeader',function(data){
-        if(timeleft == 30 || rfid !== data.rfid){
-            document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
-            rfid = data.rfid;
-            clearInterval(x);
-            startCountdown(); 
+        if(timeleft == time || rfid !== data.rfid){
+            if (timeleft > 0 && timeleft < time) {
+                var parameters = { state: 3, bomb: document.getElementById("bombNumber").innerHTML };
+                $.get('/changeState', parameters);
+                document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
+                rfid = data.rfid;
+                clearInterval(x);
+                startCountdown();
+            }
+            else{
+                document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
+                rfid = data.rfid;
+                clearInterval(x);
+                startCountdown();
+            } 
         }
         
         // console.log("hello");
