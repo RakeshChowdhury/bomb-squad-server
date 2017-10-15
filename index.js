@@ -20,7 +20,7 @@ var bombArray = [];
 
 const SerialPort = require('serialport');
 const baud_rate = 9600;
-const port = new SerialPort('/dev/ttyACM0', {
+const port = new SerialPort('/dev/ttyACM1', {
     baudRate: baud_rate
 });
 
@@ -115,7 +115,7 @@ function getBombNumber(rfid){
 ///// socket.io //////
 
 server.listen(3000, function(){
-	console.log("Listening on port 5000");
+	console.log("Listening on port 3000");
 });
 
 // socket client test
