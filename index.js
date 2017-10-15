@@ -89,9 +89,10 @@ function getBombNumber(rfid){
 		else if (bombArray[i].rfid == rfid) {
 			bombNumber = bombArray[i].number;
 			bombArray[i].setStatus(1);
+            return bombNumber;
 		}
 	}
-	return bombNumber;
+	return -1;
 }
 
 ///// socket.io //////
