@@ -94,6 +94,7 @@ function triggerArduino() {
     // console.log(bombArray);
     writeArduino(statusString);
     console.log("Status String" + statusString);
+	
 }
 
 function getBombNumber(rfid){
