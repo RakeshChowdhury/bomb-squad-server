@@ -48,7 +48,7 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     var i = 0;
 
     array.forEach(function(entry) {
-        rfidNums.push(parseInt(entry))
+        rfidNums.push(entry)
     });
 
     rfidNums = shuffle(rfidNums);
