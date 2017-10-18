@@ -62,7 +62,7 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
 
 
 
-app.get('/' + key + '/:rfid([0-9]{11})', function(req, res){
+app.get('/' + key + '/:rfid', function(req, res){
 	var rfid = req.params.rfid;
 	var bomb = getBombNumber(rfid);
 	var data = {bombnumber: bomb,rfid: rfid};
