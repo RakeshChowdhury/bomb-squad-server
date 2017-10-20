@@ -64,6 +64,8 @@ $(document).ready(function(){
             if (timeleft > 0 && timeleft < time) {
                 var parameters = { state: 3, bomb: document.getElementById("bombNumber").innerHTML };
                 $.get('/changeState', parameters);
+                score -= 30;
+                document.getElementById("score").innerHTML = String(score);
                 document.getElementById("bombNumber").innerHTML = String(data.bombnumber);
                 rfid = data.rfid;
                 clearInterval(x);
@@ -76,8 +78,6 @@ $(document).ready(function(){
                 startCountdown();
             } 
         }
-        
-        // console.log("hello");
         
     });
 
