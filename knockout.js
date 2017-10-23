@@ -58,3 +58,7 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     });
     console.log(bombArray);
 });
+
+server.listen(5000, function(){
+    console.log("Listening on port 3000");
+});
