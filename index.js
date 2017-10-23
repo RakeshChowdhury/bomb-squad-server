@@ -60,8 +60,6 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     console.log(bombArray);
 });
 
-
-
 app.get('/' + key + '/:rfid', function(req, res){
 	var rfid = req.params.rfid;
 	var bomb = getBombNumber(rfid);
@@ -94,7 +92,7 @@ function triggerArduino() {
     // console.log(bombArray);
     writeArduino(statusString);
     console.log("Status String" + statusString);
-	
+
 }
 
 function getBombNumber(rfid){
