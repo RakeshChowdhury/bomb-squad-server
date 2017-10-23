@@ -15,7 +15,6 @@ app.use('/css', express.static(__dirname + '/public/stylesheets/'));
 app.set('view engine', 'pug');
 app.set('views','./views');
 
-var inst = new Bomb(8,1238912,Bomb.EXPLODED);
 var bombArray = [];
 
 const SerialPort = require('serialport');
