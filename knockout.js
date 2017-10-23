@@ -59,6 +59,10 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     console.log(bombArray);
 });
 
+app.get('/Aegis2', function(req, res){
+    res.render('knockoutUI');
+});
+
 server.listen(5000, function(){
-    console.log("Listening on port 3000");
+    console.log("Listening on port 5000");
 });

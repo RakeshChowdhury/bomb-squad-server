@@ -1,0 +1,28 @@
+doctype html
+html
+   head
+      title Knockout
+      
+      meta(charset="utf-8")
+      meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+      link(href="/css/bootstrap.min.css" rel="stylesheet")
+      link(href="/css/mdb.min.css" rel="stylesheet")
+      link(href="/css/countDown.css" rel="stylesheet")
+      script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+      script(src="/socket.io/socket.io.js")
+      script
+       include ../public/scripts/knockoutUI.js
+   
+   body
+    div.score
+      h1.scoreHeader Score:
+      p#score.score 0
+    div.container
+      h1 Bomb Number Scanned:
+        span#bombNumber
+      p#countdown
+      div.progress
+       div#progressbar.progress-bar.progress-bar-striped.bg-info(role="progressbar" aria-valuemin="0" aria-valuemax="100")
+      button#arm.btn.btn-info(type="button" onclick="arm()") ARM
+      button#defused.btn.btn-success(type="button" onclick="defuse()") DEFUSED
+      button#exploded.btn.btn-danger(type="button" onclick="explode()") EXPLODED
