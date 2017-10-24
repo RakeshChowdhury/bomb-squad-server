@@ -1,0 +1,30 @@
+.progress{
+	width: 50%;
+	height: 20px;
+	right: -25%;
+	margin-bottom: 50px;
+}
+.progress-bar{
+	/*width: 25%;*/
+	height: 20px !important;
+}
+
+#countdown{
+	font-size: 2.5em;
+}
+.container{
+	text-align: center;
+}
+#bombNumber{
+	font-weight: bold;
+}
+.scoreHeader{
+	margin-top: 30px;
+	text-align: center;
+}
+.score{
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-size: 3em;
+}

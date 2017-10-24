@@ -1,4 +1,5 @@
-var score = 0;
+var scoreT = 0;
+var scoreCT = 0;
 var time = 60;
 var timeleft = time;
 var status = 0;
@@ -34,8 +35,9 @@ function arm(){
     var parameters = { state: 0, bomb: document.getElementById("bombNumber").innerHTML };
     $('#defused').prop('disabled', true);
     $('#exploded').prop('disabled', true);
-    score += 50;
-    document.getElementById("score").innerHTML = String(score);
+    $.get('/changeState', parameters);
+    scoreT += 40;
+    document.getElementById("scoreT").innerHTML = String(scoreT);
 }
 
 function explode(){
@@ -48,8 +50,8 @@ function explode(){
     $('#defused').prop('disabled', true);
     $('#exploded').prop('disabled', true);
     $.get('/changeState', parameters);
-    score += 30;
-    document.getElementById("score").innerHTML = String(score);
+    scoreCT -= 30;
+    document.getElementById("scoreCT").innerHTML = String(scoreCT);
 }
 
 function defuse(){
@@ -60,8 +62,8 @@ function defuse(){
     $('#exploded').prop('disabled', true);
     $('#defused').prop('disabled', true);
     $.get('/changeState', parameters);
-    score -= 50;
-    document.getElementById("score").innerHTML = String(score);
+    scoreCT += 50;
+    document.getElementById("scoreCT").innerHTML = String(scoreCT);
 
 }
 

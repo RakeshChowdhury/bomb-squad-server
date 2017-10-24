@@ -7,16 +7,20 @@ html
       meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
       link(href="/css/bootstrap.min.css" rel="stylesheet")
       link(href="/css/mdb.min.css" rel="stylesheet")
-      link(href="/css/countDown.css" rel="stylesheet")
+      link(href="/css/knockoutUI.css" rel="stylesheet")
       script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
       script(src="/socket.io/socket.io.js")
       script
        include ../public/scripts/knockoutUI.js
    
    body
-    div.score
-      h1.scoreHeader Score:
-      p#score.score 0
+    div.row
+      div.score.col
+        h1.scoreHeader Terrorist:
+        p#scoreT.score 0
+      div.score.col
+        h1.scoreHeader Counter Terrorist:
+        p#scoreCT.score 0
     div.container
       h1 Bomb Number Scanned:
         span#bombNumber

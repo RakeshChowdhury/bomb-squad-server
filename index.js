@@ -116,8 +116,3 @@ server.listen(3000, function(){
 	console.log("Listening on port 3000");
 });
 
-// socket client test
-app.get('/', function(req, res){
-	res.render('testClient');
-});
-// client test end

@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var key = String(process.argv.slice(2));
+var keyT = String(process.argv.slice(2));
+var keyCT = String(process.argv.slice(3));
 
 var io = require('socket.io')(server);
 var Bomb = require('./bomb.js');
@@ -59,10 +60,60 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
     console.log(bombArray);
 });
 
+app.get('/' + key + '/:rfid', function(req, res){
+    var rfid = req.params.rfid;
+    var bomb = getBombNumber(rfid);
+    var data = {bombnumber: bomb,rfid: rfid};
+        if(bomb != -1){
+            console.log(data);
+            io.emit('updateHeader',data);
+        }
+});
+
 app.get('/Aegis2', function(req, res){
     res.render('knockoutUI');
 });
 
+app.get('/changeState', function(req, res){
+    for (var i = 0; i < bombArray.length; i++) {
+        if (bombArray[i].number == req.query.bomb) {
+            bombArray[i].setStatus(parseInt(req.query.state));
+        }
+    }
+    triggerArduino();
+    console.log(bombArray);
+});
+
+function triggerArduino() {
+    var statusString = "";
+    for (var i = 0; i < bombArray.length; i++) {
+        statusString += bombArray[i].getStatus();
+    }
+    // console.log(bombArray);
+    writeArduino(statusString);
+    console.log("Status String" + statusString);
+
+}
+
+function getBombNumber(rfid){
+    var bombNumber;
+    for (var i = 0; i < bombArray.length; i++) {
+        if (bombArray[i].rfid == rfid) {
+            if(bombArray[i].getStatus() == 3 || bombArray[i].getStatus() == 2){
+                return -1;
+            }
+            bombNumber = bombArray[i].number;
+            bombArray[i].setStatus(Bomb.DISARMED);
+            triggerArduino();
+            return bombNumber;
+        }
+    }
+    return -1;
+}
+
+///// socket.io //////
+
 server.listen(5000, function(){
     console.log("Listening on port 5000");
 });
+
