@@ -80,8 +80,6 @@ app.get('/' + keyT + '/:rfid', function(req, res){
 });
 
 
-
-
 app.get('/Aegis2', function(req, res){
     res.render('knockoutUI');
 });
@@ -114,6 +112,11 @@ function getBombNumber(rfid,team){
                 if(bombArray[i].getStatus() == Bomb.EXPLODED || bombArray[i].getStatus() == Bomb.DEFUSED){
                     return -1;
                 }
+                else if (bombArray[i].getStatus() == Bomb.DISARMED) {
+                    bombArray[i].setStatus(Bomb.DEFUSED);
+                    triggerArduino();
+                    return -1;
+                }
                 bombNumber = bombArray[i].number;
                 bombArray[i].setStatus(Bomb.DISARMED);
                 triggerArduino();
@@ -124,6 +127,10 @@ function getBombNumber(rfid,team){
     }
     else if (team === 0) {
        for (var i = 0; i < bombArray.length; i++) {
+            if(bombArray[i].getStatus() == Bomb.DISARMED){
+                    bombArray[i].setStatus(Bomb.DEFUSED);
+                    triggerArduino();
+                }
             if (bombArray[i].rfid == rfid) {
                 if(bombArray[i].getStatus() == Bomb.ARMED){
                     return -1;

@@ -69,6 +69,14 @@ function defuse(){
 
 }
 
+function change(){
+    var parameters = { state: 2, bomb: document.getElementById("bombNumber").innerHTML };
+    $('#arm').prop('disabled', true);
+    $('#defused').prop('disabled', true);
+    $('#exploded').prop('disabled', true);
+    $.get('/changeState', parameters);
+}
+
 $(document).ready(function(){
     var socket = io.connect();
     console.log(socket);
@@ -99,6 +107,8 @@ $(document).ready(function(){
         else if (data.team == 0) {
             document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
             rfid = data.rfid;
+            clearInterval(x);
+            document.getElementById("progressbar").style.width = "0%";
             $('#arm').prop('disabled', false);
             $('#defused').prop('disabled', true);
             $('#exploded').prop('disabled', true);
