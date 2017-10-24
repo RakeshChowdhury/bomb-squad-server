@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var keyT = String(process.argv.slice(2));
-var keyCT = String(process.argv.slice(3));
+var keyT = String(process.argv[2]);
+var keyCT = String(process.argv[3]);
 
 var io = require('socket.io')(server);
 var Bomb = require('./bomb.js');
@@ -17,7 +17,6 @@ app.set('view engine', 'pug');
 app.set('views','./views');
 
 var bombArray = [];
-
 const SerialPort = require('serialport');
 const baud_rate = 9600;
 const port = new SerialPort('/dev/ttyACM1', {
@@ -63,7 +62,7 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
 app.get('/' + keyCT + '/:rfid', function(req, res){
     var rfid = req.params.rfid;
     var bomb = getBombNumber(rfid,1);
-    var data = {bombnumber: bomb,rfid: rfid};
+    var data = {bombnumber: bomb, rfid: rfid, team: 1};
         if(bomb != -1){
             console.log(data);
             io.emit('updateHeader',data);
@@ -73,7 +72,7 @@ app.get('/' + keyCT + '/:rfid', function(req, res){
 app.get('/' + keyT + '/:rfid', function(req, res){
     var rfid = req.params.rfid;
     var bomb = getBombNumber(rfid,0);
-    var data = {bombnumber: bomb,rfid: rfid};
+    var data = {bombnumber: bomb, rfid: rfid, team: 0};
         if(bomb != -1){
             console.log(data);
             io.emit('updateHeader',data);

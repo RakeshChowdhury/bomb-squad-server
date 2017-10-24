@@ -33,6 +33,7 @@ function progress() {
 function arm(){
     document.getElementById("countdown").innerHTML = "ARMED";
     var parameters = { state: 0, bomb: document.getElementById("bombNumber").innerHTML };
+    $('#arm').prop('disabled', true);
     $('#defused').prop('disabled', true);
     $('#exploded').prop('disabled', true);
     $.get('/changeState', parameters);
@@ -71,25 +72,33 @@ $(document).ready(function(){
     var socket = io.connect();
     console.log(socket);
     socket.on('updateHeader',function(data){
-        if(timeleft == time || rfid !== data.rfid){
-            if (timeleft > 0 && timeleft < time) {
-                var parameters = { state: 3, bomb: document.getElementById("bombNumber").innerHTML };
-                $.get('/changeState', parameters);
-                score -= 30;
-                document.getElementById("score").innerHTML = String(score);
-                document.getElementById("bombNumber").innerHTML = String(data.bombnumber);
-                rfid = data.rfid;
-                clearInterval(x);
-                startCountdown();
+        if (data.team == 1) {
+            if(timeleft == time || rfid !== data.rfid){
+                if (timeleft > 0 && timeleft < time) {
+                    var parameters = { state: 3, bomb: document.getElementById("bombNumber").innerHTML };
+                    $.get('/changeState', parameters);
+                    score -= 30;
+                    document.getElementById("score").innerHTML = String(score);
+                    document.getElementById("bombNumber").innerHTML = String(data.bombnumber);
+                    rfid = data.rfid;
+                    clearInterval(x);
+                    startCountdown();
+                }
+                else{
+                    document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
+                    rfid = data.rfid;
+                    clearInterval(x);
+                    startCountdown();
+                } 
             }
-            else{
-                document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
-                rfid = data.rfid;
-                clearInterval(x);
-                startCountdown();
-            } 
         }
-        
+        else if (data.team == 0) {
+            document.getElementById("bombNumber").innerHTML = String(data.bombnumber); 
+            rfid = data.rfid;
+            $('#arm').prop('disabled', false);
+            $('#defused').prop('disabled', true);
+            $('#exploded').prop('disabled', true);
+        }
     });
 
 });
