@@ -12,6 +12,7 @@ function startCountdown(){
        timeleft = time; 
        status = 0;
     }
+    $('#arm').prop('disabled', true);
     $('#defused').prop('disabled', false);
     $('#exploded').prop('disabled', false);
     x = setInterval(function(){ progress() }, 1000);
@@ -71,6 +72,9 @@ function defuse(){
 $(document).ready(function(){
     var socket = io.connect();
     console.log(socket);
+    $('#arm').prop('disabled', true);
+    $('#defused').prop('disabled', true);
+    $('#exploded').prop('disabled', true);
     socket.on('updateHeader',function(data){
         if (data.team == 1) {
             if(timeleft == time || rfid !== data.rfid){
