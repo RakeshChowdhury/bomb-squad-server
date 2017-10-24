@@ -94,6 +94,16 @@ app.get('/changeState', function(req, res){
     console.log(bombArray);
 });
 
+app.get('/removeDisarmed', function(req, res){
+    for (var i = 0; i < bombArray.length; i++) {
+        if (bombArray[i].getStatus() === Bomb.DISARMED) {
+            bombArray[i].setStatus(Bomb.DEFUSED);
+        }
+    }
+    triggerArduino();
+    console.log(bombArray);
+});
+
 function triggerArduino() {
     var statusString = "";
     for (var i = 0; i < bombArray.length; i++) {

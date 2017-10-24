@@ -70,11 +70,10 @@ function defuse(){
 }
 
 function change(){
-    var parameters = { state: 2, bomb: document.getElementById("bombNumber").innerHTML };
     $('#arm').prop('disabled', true);
     $('#defused').prop('disabled', true);
     $('#exploded').prop('disabled', true);
-    $.get('/changeState', parameters);
+    $.get('/removeDisarmed', parameters);
 }
 
 $(document).ready(function(){
