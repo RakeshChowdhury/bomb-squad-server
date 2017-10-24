@@ -55,20 +55,33 @@ fs.readFile('rfid', 'utf8', function(err, contents) {
 
     i = 0;
     rfidNums.forEach(function(entry) {
-        bombArray.push(new Bomb(i++, entry, Bomb.ARMED));
+        bombArray.push(new Bomb(i++, entry, Bomb.DEFUSED));
     });
     console.log(bombArray);
 });
 
-app.get('/' + key + '/:rfid', function(req, res){
+app.get('/' + keyCT + '/:rfid', function(req, res){
     var rfid = req.params.rfid;
-    var bomb = getBombNumber(rfid);
+    var bomb = getBombNumber(rfid,1);
     var data = {bombnumber: bomb,rfid: rfid};
         if(bomb != -1){
             console.log(data);
             io.emit('updateHeader',data);
         }
 });
+
+app.get('/' + keyT + '/:rfid', function(req, res){
+    var rfid = req.params.rfid;
+    var bomb = getBombNumber(rfid,0);
+    var data = {bombnumber: bomb,rfid: rfid};
+        if(bomb != -1){
+            console.log(data);
+            io.emit('updateHeader',data);
+        }
+});
+
+
+
 
 app.get('/Aegis2', function(req, res){
     res.render('knockoutUI');
@@ -92,23 +105,38 @@ function triggerArduino() {
     // console.log(bombArray);
     writeArduino(statusString);
     console.log("Status String" + statusString);
-
 }
 
-function getBombNumber(rfid){
+function getBombNumber(rfid,team){
     var bombNumber;
-    for (var i = 0; i < bombArray.length; i++) {
-        if (bombArray[i].rfid == rfid) {
-            if(bombArray[i].getStatus() == 3 || bombArray[i].getStatus() == 2){
-                return -1;
+    if (team === 1) {
+        for (var i = 0; i < bombArray.length; i++) {
+            if (bombArray[i].rfid == rfid) {
+                if(bombArray[i].getStatus() == Bomb.EXPLODED || bombArray[i].getStatus() == Bomb.DEFUSED){
+                    return -1;
+                }
+                bombNumber = bombArray[i].number;
+                bombArray[i].setStatus(Bomb.DISARMED);
+                triggerArduino();
+                return bombNumber;
             }
-            bombNumber = bombArray[i].number;
-            bombArray[i].setStatus(Bomb.DISARMED);
-            triggerArduino();
-            return bombNumber;
         }
+        return -1;
     }
-    return -1;
+    else if (team === 0) {
+       for (var i = 0; i < bombArray.length; i++) {
+            if (bombArray[i].rfid == rfid) {
+                if(bombArray[i].getStatus() == Bomb.ARMED){
+                    return -1;
+                }
+                bombNumber = bombArray[i].number;
+                bombArray[i].setStatus(Bomb.DISARMED);
+                triggerArduino();
+                return bombNumber;
+            }
+        }
+        return -1;
+    }
 }
 
 ///// socket.io //////
